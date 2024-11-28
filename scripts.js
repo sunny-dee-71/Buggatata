@@ -13,19 +13,19 @@ uploadForm.addEventListener('submit', async (event) => {
 
     const file = videoFileInput.files[0];
     const videoName = videoNameInput.value.trim();
+
     if (!file || !videoName) {
-        uploadStatus.textContent = 'Please select a video file and provide a video name.';
+        uploadStatus.textContent = 'Please select a video file and enter a video name.';
         return;
     }
 
-    // Create a thumbnail from the first frame
-    const thumbnailUrl = await generateThumbnail(file);
-
-    // Prepare form data
     const formData = new FormData();
     formData.append('video', file); // Attach video file to form data
-    formData.append('video-name', videoName); // Attach video name
-    formData.append('thumbnail', thumbnailUrl); // Attach thumbnail image as base64 string
+    formData.append('video-name', videoName); // Attach video name to form data
+
+    // Generate a thumbnail (optional step: here we are just sending a placeholder)
+    const thumbnail = await generateThumbnail(file);
+    formData.append('thumbnail', thumbnail);
 
     try {
         uploadStatus.textContent = 'Uploading...';
@@ -48,34 +48,11 @@ uploadForm.addEventListener('submit', async (event) => {
     }
 });
 
-// Generate thumbnail from the first frame of the video
-async function generateThumbnail(videoFile) {
-    const videoElement = document.createElement('video');
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-
-    // Load the video file into the video element
-    const videoUrl = URL.createObjectURL(videoFile);
-    videoElement.src = videoUrl;
-
-    return new Promise((resolve, reject) => {
-        videoElement.addEventListener('loadeddata', () => {
-            videoElement.currentTime = 0; // Seek to the first frame
-        });
-
-        videoElement.addEventListener('seeked', () => {
-            // Draw the first frame onto the canvas
-            canvas.width = videoElement.videoWidth;
-            canvas.height = videoElement.videoHeight;
-            ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-            const dataUrl = canvas.toDataURL('image/jpeg');
-            resolve(dataUrl); // Return the thumbnail image as a base64 string
-        });
-
-        videoElement.addEventListener('error', (err) => {
-            reject('Error generating thumbnail: ' + err);
-        });
-    });
+// Function to generate a thumbnail (this is a placeholder for now)
+async function generateThumbnail(file) {
+    // You can implement real thumbnail generation here if needed, for now it's just a placeholder
+    // For example, you could use a video element to extract the first frame or use a server-side library
+    return 'https://via.placeholder.com/150';  // Placeholder thumbnail URL
 }
 
 // Fetch and display uploaded videos
