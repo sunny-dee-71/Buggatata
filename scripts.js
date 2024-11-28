@@ -60,6 +60,8 @@ async function loadUploadedVideos() {
     try {
         const response = await fetch('https://pokemon-backend-rj8e.onrender.com/videos');
         const videos = await response.json();
+        
+        console.log(videos); // Log to check the structure of the response
 
         // Clear existing videos
         videoGrid.innerHTML = '';
@@ -86,6 +88,7 @@ async function loadUploadedVideos() {
         console.error('Error loading videos:', error);
     }
 }
+
 
 // Play selected video in the video player
 function playVideo(videoUrl) {
