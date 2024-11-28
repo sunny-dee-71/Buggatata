@@ -31,6 +31,15 @@
         </div>
     </section>
 
+    <section class="video-upload">
+        <h2>Upload Your Video</h2>
+        <form id="upload-form" enctype="multipart/form-data">
+            <input type="file" name="video" id="video-upload" accept="video/*" required>
+            <button type="submit" class="button upload">Upload</button>
+        </form>
+        <p id="upload-status"></p>
+    </section>
+
     <section class="video-grid">
         <div class="video-thumbnail">
             <img src="assets/thumbnail1.jpg" alt="Thumbnail 1">
@@ -40,7 +49,6 @@
             <img src="assets/thumbnail2.jpg" alt="Thumbnail 2">
             <div class="title">Video Title 2</div>
         </div>
-        <!-- Add more thumbnails as needed -->
     </section>
 
     <footer>
