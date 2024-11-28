@@ -1,7 +1,6 @@
-// Example script for loading videos (you will need a backend for actual uploads)
-const backendURL = "https://pokemon-node.onrender.com";  // Replace with your backend URL
+// Example script for uploading and displaying videos
+const backendURL = "https://pokemon-node.onrender.com";  // Update with your backend URL (Render or localhost)
 
-// Handle video upload (if you have a backend)
 document.getElementById('upload-form').addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -30,7 +29,7 @@ document.getElementById('upload-form').addEventListener('submit', async (e) => {
     }
 });
 
-// Function to load video grid (this can be dynamic or static for now)
+// Load uploaded videos from the backend and display them
 async function loadVideoGrid() {
     const videoGridElement = document.getElementById('video-grid');
     videoGridElement.innerHTML = '';  // Clear existing content
@@ -44,7 +43,10 @@ async function loadVideoGrid() {
                 const videoElement = document.createElement('div');
                 videoElement.classList.add('video-thumbnail');
                 videoElement.innerHTML = `
-                    <img src="https://via.placeholder.com/150" alt="Thumbnail">
+                    <video width="150" controls>
+                        <source src="${backendURL}/uploads/${video}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                     <div class="title">${video}</div>
                     <button onclick="playVideo('${video}')">Play</button>
                 `;
@@ -56,12 +58,12 @@ async function loadVideoGrid() {
     }
 }
 
-// Play selected video
+// Function to play the selected video
 function playVideo(videoName) {
     const videoPlayer = document.getElementById('current-video');
-    videoPlayer.src = `${backendURL}/videos/${videoName}`;
+    videoPlayer.src = `${backendURL}/uploads/${videoName}`;
     document.getElementById('video-title').textContent = videoName;
 }
 
-// Initial load of video grid (or you can dynamically populate if connected to a backend)
+// Initial load of the video grid
 loadVideoGrid();
