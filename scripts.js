@@ -46,14 +46,20 @@ async function loadUploadedVideos() {
         const response = await fetch('https://pokemon-backend-rj8e.onrender.com/videos');
         const videos = await response.json();
 
-        videoGrid.innerHTML = ''; // Clear existing videos
+        // Clear existing videos
+        videoGrid.innerHTML = '';
+
+        // Loop through videos and create thumbnail elements
         videos.forEach((video) => {
             const videoDiv = document.createElement('div');
             videoDiv.classList.add('video-thumbnail');
+
             videoDiv.innerHTML = `
-                <img src="https://via.placeholder.com/150" alt="Thumbnail">
-                <div class="title">${video.title}</div>
+                <img src="https://via.placeholder.com/150" alt="Thumbnail" class="thumbnail">
+                <div class="title">${video.title || 'Untitled Video'}</div>
             `;
+
+            // Set the onclick handler to play the selected video
             videoDiv.onclick = () => playVideo(video.url);
             videoGrid.appendChild(videoDiv);
         });
