@@ -17,7 +17,7 @@ body {
     border-radius: 8px;
 }
 
-h1 {
+h1, h2 {
     font-size: 2rem;
 }
 
@@ -41,4 +41,24 @@ button:hover {
 
 input[type="file"] {
     margin: 10px 0;
+}
+
+video {
+    margin-top: 20px;
+    max-width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.upload-form {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.upload-form button {
+    background-color: #007BFF;
+}
+
+.upload-form button:hover {
+    background-color: #0056b3;
 }
