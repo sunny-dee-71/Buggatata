@@ -57,6 +57,7 @@ async function loadUploadedVideos() {
                 const videoDiv = document.createElement('div');
                 videoDiv.classList.add('video-thumbnail');
                 
+                // Create video element with a clickable link
                 videoDiv.innerHTML = `
                     <div class="title">${videoUrl}</div>
                 `;
