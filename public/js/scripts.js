@@ -1,4 +1,4 @@
-const backendURL = "https://Pokemon-Node.onrender.com";  // Replace with your Render URL
+const backendURL = "https://Pokemon-Node.com";  // Replace with your Render URL
 
 // Handle video upload
 document.getElementById('upload-form').addEventListener('submit', async (e) => {
@@ -42,4 +42,26 @@ async function loadVideoGrid() {
         if (videos.length > 0) {
             videos.forEach(video => {
                 const videoElement = document.createElement('div');
-                videoElement.classList.add('video
+                videoElement.classList.add('video-thumbnail');
+                videoElement.innerHTML = `
+                    <img src="https://via.placeholder.com/150" alt="Thumbnail">
+                    <div class="title">${video}</div>
+                    <button onclick="playVideo('${video}')">Play</button>
+                `;
+                videoGridElement.appendChild(videoElement);
+            });
+        }
+    } catch (error) {
+        console.error('Error loading video grid:', error);
+    }
+}
+
+// Play selected video
+function playVideo(videoName) {
+    const videoPlayer = document.getElementById('current-video');
+    videoPlayer.src = `${backendURL}/videos/${videoName}`;
+    document.getElementById('video-title').textContent = videoName;
+}
+
+// Initial video grid load
+loadVideoGrid();
