@@ -52,13 +52,13 @@ async function loadUploadedVideos() {
         if (videos.length === 0) {
             videoGrid.innerHTML = '<p>No videos available.</p>';
         } else {
-            // Loop through videos and create video elements
+            // Loop through videos and create thumbnail elements
             videos.forEach((videoUrl) => {
                 const videoDiv = document.createElement('div');
                 videoDiv.classList.add('video-thumbnail');
-                
-                // Create video element with a clickable link
+
                 videoDiv.innerHTML = `
+                    <img src="https://via.placeholder.com/150" alt="Thumbnail" class="thumbnail">
                     <div class="title">${videoUrl}</div>
                 `;
 
