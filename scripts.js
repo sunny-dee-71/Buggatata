@@ -6,6 +6,34 @@ const videoPlayer = document.getElementById('videoPlayer');
 const videoSource = document.getElementById('videoSource');
 const videoGrid = document.getElementById('videoGrid');
 
+// Function to generate thumbnail
+function generateThumbnail(videoFile) {
+    const video = document.createElement('video');
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+
+    video.src = URL.createObjectURL(videoFile);
+    video.load();
+
+    return new Promise((resolve, reject) => {
+        video.onloadeddata = () => {
+            // Set canvas size to match video size
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+            // Draw the first frame of the video on the canvas
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Convert the canvas to a data URL (image)
+            const thumbnailDataUrl = canvas.toDataURL('image/png');
+
+            resolve(thumbnailDataUrl);
+        };
+
+        video.onerror = (error) => reject(error);
+    });
+}
+
 // Handle video upload
 uploadForm.addEventListener('submit', async (event) => {
     event.preventDefault(); // Prevent the form from submitting normally
@@ -53,17 +81,26 @@ async function loadUploadedVideos() {
             videoGrid.innerHTML = '<p>No videos available.</p>';
         } else {
             // Loop through videos and create thumbnail elements
-            videos.forEach((video) => {
+            videos.forEach((videoUrl) => {
                 const videoDiv = document.createElement('div');
                 videoDiv.classList.add('video-thumbnail');
 
-                videoDiv.innerHTML = `
-                    <img src="${video.thumbnailUrl}" alt="Thumbnail" class="thumbnail">
-                    <div class="title">${video.videoUrl}</div>
-                `;
+                // Generate a thumbnail for each video
+                generateThumbnail(videoUrl).then((thumbnail) => {
+                    videoDiv.innerHTML = `
+                        <img src="${thumbnail}" alt="Thumbnail" class="thumbnail">
+                        <div class="title">${videoUrl}</div>
+                    `;
+                }).catch(error => {
+                    console.error('Error generating thumbnail:', error);
+                    videoDiv.innerHTML = `
+                        <img src="https://via.placeholder.com/150" alt="Thumbnail" class="thumbnail">
+                        <div class="title">${videoUrl}</div>
+                    `;
+                });
 
                 // Set the onclick handler to play the selected video
-                videoDiv.onclick = () => playVideo(video.videoUrl);
+                videoDiv.onclick = () => playVideo(videoUrl);
                 videoGrid.appendChild(videoDiv);
             });
         }
