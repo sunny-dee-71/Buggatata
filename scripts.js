@@ -1,42 +1,73 @@
-// Example of dynamically loaded video data (from back-end server on Render)
-const videoData = [
-    { title: 'Video 1', thumbnail: 'assets/thumbnail1.jpg', videoUrl: 'https://pokemon-backend-rj8e.onrender.com/videos/video1.mp4' },
-    { title: 'Video 2', thumbnail: 'assets/thumbnail2.jpg', videoUrl: 'https://pokemon-backend-rj8e.onrender.com/videos/video2.mp4' }
-];
+// Select elements
+const uploadForm = document.getElementById('uploadForm');
+const videoFileInput = document.getElementById('videoFile');
+const uploadStatus = document.getElementById('uploadStatus');
+const videoPlayer = document.getElementById('videoPlayer');
+const videoSource = document.getElementById('videoSource');
+const videoGrid = document.getElementById('videoGrid');
 
-// Load video thumbnails into the grid
-const videoGrid = document.getElementById('video-grid');
-videoData.forEach((video) => {
-    const videoDiv = document.createElement('div');
-    videoDiv.classList.add('video-thumbnail');
-    videoDiv.innerHTML = `
-        <img src="${video.thumbnail}" alt="${video.title}">
-        <div class="title">${video.title}</div>
-    `;
-    videoDiv.onclick = () => loadVideo(video);
-    videoGrid.appendChild(videoDiv);
+// Handle video upload
+uploadForm.addEventListener('submit', async (event) => {
+    event.preventDefault(); // Prevent the form from submitting normally
+
+    const file = videoFileInput.files[0];
+    if (!file) {
+        uploadStatus.textContent = 'Please select a video file to upload.';
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('video', file); // Attach video file to form data
+
+    try {
+        uploadStatus.textContent = 'Uploading...';
+
+        const response = await fetch('https://pokemon-backend-rj8e.onrender.com/upload', {
+            method: 'POST',
+            body: formData,
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            uploadStatus.textContent = `Upload successful! Video available at: ${result.videoUrl}`;
+            loadUploadedVideos(); // Reload the video gallery
+        } else {
+            uploadStatus.textContent = `Error: ${result.message}`;
+        }
+    } catch (error) {
+        uploadStatus.textContent = `Upload failed: ${error.message}`;
+    }
 });
 
-// Load the selected video into the player
-function loadVideo(video) {
-    const videoPlayer = document.getElementById('video-player');
-    const videoTitle = document.getElementById('video-title');
-    const videoSource = document.getElementById('video-source');
+// Fetch and display uploaded videos
+async function loadUploadedVideos() {
+    try {
+        const response = await fetch('https://pokemon-backend-rj8e.onrender.com/videos');
+        const videos = await response.json();
 
-    videoSource.src = video.videoUrl;
-    videoPlayer.load();
-    videoTitle.textContent = video.title;
+        videoGrid.innerHTML = ''; // Clear existing videos
+        videos.forEach((video) => {
+            const videoDiv = document.createElement('div');
+            videoDiv.classList.add('video-thumbnail');
+            videoDiv.innerHTML = `
+                <img src="https://via.placeholder.com/150" alt="Thumbnail">
+                <div class="title">${video.title}</div>
+            `;
+            videoDiv.onclick = () => playVideo(video.url);
+            videoGrid.appendChild(videoDiv);
+        });
+    } catch (error) {
+        console.error('Error loading videos:', error);
+    }
 }
 
-function playVideo() {
-    const videoPlayer = document.getElementById('video-player');
+// Play selected video in the video player
+function playVideo(videoUrl) {
+    videoSource.src = `https://pokemon-backend-rj8e.onrender.com${videoUrl}`;
+    videoPlayer.load();
     videoPlayer.play();
 }
 
-function shareVideo() {
-    alert('Sharing feature coming soon!');
-}
-
-function favoriteVideo() {
-    alert('Favorite feature coming soon!');
-}
+// Load uploaded videos when the page loads
+window.onload = loadUploadedVideos;
