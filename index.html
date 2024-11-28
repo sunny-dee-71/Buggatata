@@ -20,31 +20,33 @@
     </nav>
 
     <section class="video-player">
-        <video src="sample-video.mp4" controls></video>
+        <video src="assets/sample-video.mp4" controls></video>
         <div class="description">
             <span>Sample Video Title</span>
             <div>
-                <button class="button play">Play</button>
-                <button class="button share">Share</button>
-                <button class="button favorite">Favorite</button>
+                <button class="button play" onclick="playVideo()">Play</button>
+                <button class="button share" onclick="shareVideo()">Share</button>
+                <button class="button favorite" onclick="favoriteVideo()">Favorite</button>
             </div>
         </div>
     </section>
 
     <section class="video-grid">
         <div class="video-thumbnail">
-            <img src="thumbnail1.jpg" alt="Thumbnail 1">
+            <img src="assets/thumbnail1.jpg" alt="Thumbnail 1">
             <div class="title">Video Title 1</div>
         </div>
         <div class="video-thumbnail">
-            <img src="thumbnail2.jpg" alt="Thumbnail 2">
+            <img src="assets/thumbnail2.jpg" alt="Thumbnail 2">
             <div class="title">Video Title 2</div>
         </div>
-        <!-- More thumbnails here -->
+        <!-- Add more thumbnails as needed -->
     </section>
 
     <footer>
         <p>&copy; 2024 VideoHub. All rights reserved.</p>
     </footer>
+
+    <script src="scripts.js"></script>
 </body>
 </html>
