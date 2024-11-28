@@ -1,20 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>defiantly just pokomon</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="./favicon.ico" type="image/x-icon">
-  </head>
-  <body>
-    <main>
-      <container>
-        <h1>Welcome to My Website</h1>  
-      </container>
-        
-    </main>
-    <script src="index.js"></script>
-  </body>
+    <title>Video Sharing Platform</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="logo">VideoHub</div>
+        <div class="menu">
+            <a href="#">Home</a>
+            <a href="#">Trending</a>
+            <a href="#">Subscriptions</a>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search videos...">
+        </div>
+    </nav>
+
+    <section class="video-player">
+        <video src="sample-video.mp4" controls></video>
+        <div class="description">
+            <span>Sample Video Title</span>
+            <div>
+                <button class="button play">Play</button>
+                <button class="button share">Share</button>
+                <button class="button favorite">Favorite</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="video-grid">
+        <div class="video-thumbnail">
+            <img src="thumbnail1.jpg" alt="Thumbnail 1">
+            <div class="title">Video Title 1</div>
+        </div>
+        <div class="video-thumbnail">
+            <img src="thumbnail2.jpg" alt="Thumbnail 2">
+            <div class="title">Video Title 2</div>
+        </div>
+        <!-- More thumbnails here -->
+    </section>
+
+    <footer>
+        <p>&copy; 2024 VideoHub. All rights reserved.</p>
+    </footer>
+</body>
 </html>
