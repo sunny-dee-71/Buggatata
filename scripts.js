@@ -1,6 +1,7 @@
 // Select elements
 const uploadForm = document.getElementById('uploadForm');
 const videoFileInput = document.getElementById('videoFile');
+const videoNameInput = document.getElementById('videoName');
 const uploadStatus = document.getElementById('uploadStatus');
 const videoPlayer = document.getElementById('videoPlayer');
 const videoSource = document.getElementById('videoSource');
@@ -11,13 +12,20 @@ uploadForm.addEventListener('submit', async (event) => {
     event.preventDefault(); // Prevent the form from submitting normally
 
     const file = videoFileInput.files[0];
-    if (!file) {
-        uploadStatus.textContent = 'Please select a video file to upload.';
+    const videoName = videoNameInput.value.trim();
+    if (!file || !videoName) {
+        uploadStatus.textContent = 'Please select a video file and provide a video name.';
         return;
     }
 
+    // Create a thumbnail from the first frame
+    const thumbnailUrl = await generateThumbnail(file);
+
+    // Prepare form data
     const formData = new FormData();
     formData.append('video', file); // Attach video file to form data
+    formData.append('video-name', videoName); // Attach video name
+    formData.append('thumbnail', thumbnailUrl); // Attach thumbnail image as base64 string
 
     try {
         uploadStatus.textContent = 'Uploading...';
@@ -40,6 +48,36 @@ uploadForm.addEventListener('submit', async (event) => {
     }
 });
 
+// Generate thumbnail from the first frame of the video
+async function generateThumbnail(videoFile) {
+    const videoElement = document.createElement('video');
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Load the video file into the video element
+    const videoUrl = URL.createObjectURL(videoFile);
+    videoElement.src = videoUrl;
+
+    return new Promise((resolve, reject) => {
+        videoElement.addEventListener('loadeddata', () => {
+            videoElement.currentTime = 0; // Seek to the first frame
+        });
+
+        videoElement.addEventListener('seeked', () => {
+            // Draw the first frame onto the canvas
+            canvas.width = videoElement.videoWidth;
+            canvas.height = videoElement.videoHeight;
+            ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+            const dataUrl = canvas.toDataURL('image/jpeg');
+            resolve(dataUrl); // Return the thumbnail image as a base64 string
+        });
+
+        videoElement.addEventListener('error', (err) => {
+            reject('Error generating thumbnail: ' + err);
+        });
+    });
+}
+
 // Fetch and display uploaded videos
 async function loadUploadedVideos() {
     try {
@@ -53,17 +91,17 @@ async function loadUploadedVideos() {
             videoGrid.innerHTML = '<p>No videos available.</p>';
         } else {
             // Loop through videos and create thumbnail elements
-            videos.forEach((videoUrl) => {
+            videos.forEach((video) => {
                 const videoDiv = document.createElement('div');
                 videoDiv.classList.add('video-thumbnail');
 
                 videoDiv.innerHTML = `
-                    <img src="https://via.placeholder.com/150" alt="Thumbnail" class="thumbnail">
-                    <div class="title">${videoUrl}</div>
+                    <img src="${video.thumbnailUrl}" alt="Thumbnail" class="thumbnail">
+                    <div class="title">${video.videoName}</div>
                 `;
 
                 // Set the onclick handler to play the selected video
-                videoDiv.onclick = () => playVideo(videoUrl);
+                videoDiv.onclick = () => playVideo(video.videoUrl);
                 videoGrid.appendChild(videoDiv);
             });
         }
