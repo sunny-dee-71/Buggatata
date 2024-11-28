@@ -49,20 +49,24 @@ async function loadUploadedVideos() {
         // Clear existing videos
         videoGrid.innerHTML = '';
 
-        // Loop through videos and create thumbnail elements
-        videos.forEach((video) => {
-            const videoDiv = document.createElement('div');
-            videoDiv.classList.add('video-thumbnail');
+        if (videos.length === 0) {
+            videoGrid.innerHTML = '<p>No videos available.</p>';
+        } else {
+            // Loop through videos and create thumbnail elements
+            videos.forEach((videoUrl) => {
+                const videoDiv = document.createElement('div');
+                videoDiv.classList.add('video-thumbnail');
 
-            videoDiv.innerHTML = `
-                <img src="https://via.placeholder.com/150" alt="Thumbnail" class="thumbnail">
-                <div class="title">${video.title || 'Untitled Video'}</div>
-            `;
+                videoDiv.innerHTML = `
+                    <img src="https://via.placeholder.com/150" alt="Thumbnail" class="thumbnail">
+                    <div class="title">${videoUrl}</div>
+                `;
 
-            // Set the onclick handler to play the selected video
-            videoDiv.onclick = () => playVideo(video.url);
-            videoGrid.appendChild(videoDiv);
-        });
+                // Set the onclick handler to play the selected video
+                videoDiv.onclick = () => playVideo(videoUrl);
+                videoGrid.appendChild(videoDiv);
+            });
+        }
     } catch (error) {
         console.error('Error loading videos:', error);
     }
