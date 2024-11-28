@@ -12,24 +12,32 @@ function generateThumbnail(videoFile) {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
 
+    // Create a URL for the video file and load the video
     video.src = URL.createObjectURL(videoFile);
     video.load();
 
     return new Promise((resolve, reject) => {
+        // Wait for the video to load
         video.onloadeddata = () => {
-            // Set canvas size to match video size
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
+            // Ensure video has loaded enough data to display a frame
+            if (video.videoWidth > 0 && video.videoHeight > 0) {
+                // Set canvas size to match video size
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
 
-            // Draw the first frame of the video on the canvas
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                // Draw the first frame of the video on the canvas
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-            // Convert the canvas to a data URL (image)
-            const thumbnailDataUrl = canvas.toDataURL('image/png');
+                // Convert the canvas to a data URL (image)
+                const thumbnailDataUrl = canvas.toDataURL('image/png');
 
-            resolve(thumbnailDataUrl);
+                resolve(thumbnailDataUrl);
+            } else {
+                reject('Failed to load video frame');
+            }
         };
 
+        // Handle errors if video fails to load
         video.onerror = (error) => reject(error);
     });
 }
