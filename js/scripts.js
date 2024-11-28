@@ -1,5 +1,5 @@
 // Example script for loading videos (you will need a backend for actual uploads)
-const backendURL = "https://your-backend-url";  // Replace with your backend URL
+const backendURL = "https://pokemon-node.onrender.com";  // Replace with your backend URL
 
 // Handle video upload (if you have a backend)
 document.getElementById('upload-form').addEventListener('submit', async (e) => {
