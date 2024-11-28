@@ -1,7 +1,7 @@
-// Placeholder videos for the grid (you can replace these with real data)
+// Example of dynamically loaded video data (from back-end server on Render)
 const videoData = [
-    { title: 'Video 1', thumbnail: 'assets/thumbnail1.jpg', videoUrl: 'https://your-backend-url/videos/video1.mp4' },
-    { title: 'Video 2', thumbnail: 'assets/thumbnail2.jpg', videoUrl: 'https://your-backend-url/videos/video2.mp4' }
+    { title: 'Video 1', thumbnail: 'assets/thumbnail1.jpg', videoUrl: 'https://pokemon-backend-rj8e.onrender.com/videos/video1.mp4' },
+    { title: 'Video 2', thumbnail: 'assets/thumbnail2.jpg', videoUrl: 'https://pokemon-backend-rj8e.onrender.com/videos/video2.mp4' }
 ];
 
 // Load video thumbnails into the grid
