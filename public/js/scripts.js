@@ -1,4 +1,4 @@
-const backendURL = "https://your-app-name.onrender.com";  // Use your Render URL
+const backendURL = "https://Pokemon-Node.onrender.com";  // Use your Render URL
 
 document.getElementById('upload-form').addEventListener('submit', async (e) => {
     e.preventDefault();
