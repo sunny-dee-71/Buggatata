@@ -1,5 +1,6 @@
-const backendURL = "https://Pokemon-Node.onrender.com";  // Use your Render URL
+const backendURL = "https://Pokemon-Node.onrender.com";  // Replace with your Render URL
 
+// Handle video upload
 document.getElementById('upload-form').addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -19,6 +20,7 @@ document.getElementById('upload-form').addEventListener('submit', async (e) => {
 
         if (response.ok) {
             status.textContent = "Upload successful!";
+            loadVideoGrid();  // Reload the list of available videos
         } else {
             status.textContent = "Upload failed. Try again.";
         }
@@ -27,3 +29,17 @@ document.getElementById('upload-form').addEventListener('submit', async (e) => {
         status.textContent = "Error uploading video.";
     }
 });
+
+// Load available videos from the server and display them
+async function loadVideoGrid() {
+    const videoGridElement = document.getElementById('video-grid');
+    videoGridElement.innerHTML = '';  // Clear the video grid
+
+    try {
+        const response = await fetch(`${backendURL}/videos`);
+        const videos = await response.json();
+
+        if (videos.length > 0) {
+            videos.forEach(video => {
+                const videoElement = document.createElement('div');
+                videoElement.classList.add('video
