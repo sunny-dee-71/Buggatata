@@ -1,5 +1,4 @@
-<style>
-        body {
+body {
             font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
@@ -37,4 +36,3 @@
             padding: 16px 33px;
             outline: none;
         }
-    </style>
