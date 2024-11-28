@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Sharing Platform</title>
+    <title>VideoHub - Upload & View Videos</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -15,27 +15,33 @@
             <a href="#">Subscriptions</a>
         </div>
         <div class="search-bar">
-            <input type="text" id="search-bar" placeholder="Search videos...">
+            <input type="text" placeholder="Search videos...">
         </div>
     </nav>
 
-    <section class="video-player">
-        <video id="video-player" controls>
-            <source id="video-source" src="" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <div class="description">
-            <span id="video-title">Select a video</span>
-            <div>
-                <button class="button play" onclick="playVideo()">Play</button>
-                <button class="button share" onclick="shareVideo()">Share</button>
-                <button class="button favorite" onclick="favoriteVideo()">Favorite</button>
-            </div>
-        </div>
+    <!-- Video Upload Form -->
+    <section class="upload-section">
+        <h2>Upload Your Video</h2>
+        <form id="uploadForm">
+            <input type="file" id="videoFile" accept="video/*" required>
+            <button type="submit">Upload Video</button>
+        </form>
+        <p id="uploadStatus"></p>
     </section>
 
-    <section class="video-grid" id="video-grid">
-        <!-- Video thumbnails will be loaded dynamically here -->
+    <!-- Video Player -->
+    <section class="video-player">
+        <h2>Watch Video</h2>
+        <video id="videoPlayer" controls>
+            <source id="videoSource" src="" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </section>
+
+    <!-- Uploaded Videos List -->
+    <section class="video-gallery">
+        <h2>Uploaded Videos</h2>
+        <div id="videoGrid"></div>
     </section>
 
     <footer>
