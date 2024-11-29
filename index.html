@@ -9,19 +9,27 @@
 <body>
     <nav>
         <div class="logo">VideoHub</div>
+        <div class="menu">
+            <a href="#">Home</a>
+            <a href="#">Trending</a>
+            <a href="#">Subscriptions</a>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search videos...">
+        </div>
     </nav>
 
-    <!-- Video Upload Section -->
+    <!-- Video Upload Form -->
     <section class="upload-section">
         <h2>Upload Your Video</h2>
         <form id="uploadForm">
             <input type="file" id="videoFile" accept="video/*" required>
-            <button type="submit">Upload</button>
+            <button type="submit">Upload Video</button>
         </form>
         <p id="uploadStatus"></p>
     </section>
 
-    <!-- Video Player Section -->
+    <!-- Video Player -->
     <section class="video-player">
         <h2>Watch Video</h2>
         <video id="videoPlayer" controls>
@@ -30,11 +38,17 @@
         </video>
     </section>
 
-    <!-- Video Gallery Section -->
+    <!-- Video Gallery - Display Videos -->
     <section class="video-gallery">
         <h2>Uploaded Videos</h2>
-        <div id="videoGrid" class="video-grid"></div>
+        <div id="videoGrid" class="video-grid">
+            <!-- Dynamically populated with video thumbnails -->
+        </div>
     </section>
+
+    <footer>
+        <p>&copy; 2024 VideoHub. All rights reserved.</p>
+    </footer>
 
     <script src="scripts.js"></script>
 </body>
