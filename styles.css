@@ -2,81 +2,34 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background: #f4f4f4;
 }
 
 nav {
-    background-color: #333;
-    color: white;
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-nav .logo {
-    font-size: 1.5rem;
-}
-
-nav .menu a {
-    color: white;
-    text-decoration: none;
-    margin: 0 10px;
-}
-
-.search-bar input {
-    padding: 5px;
-    font-size: 1rem;
-}
-
-.upload-section, .video-player, .video-gallery {
-    padding: 20px;
+    background: #333;
+    color: #fff;
+    padding: 1rem;
     text-align: center;
 }
 
-.upload-section input[type="file"] {
-    margin: 10px 0;
+.upload-section, .video-gallery {
+    padding: 2rem;
+    text-align: center;
 }
 
-.video-gallery {
-    margin-top: 30px;
+button {
+    background: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
 }
 
-.video-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 20px;
-    justify-items: center;
+button:hover {
+    background: #0056b3;
 }
 
 .video-thumbnail {
-    cursor: pointer;
-    text-align: center;
-    transition: transform 0.2s;
-}
-
-.video-thumbnail:hover {
-    transform: scale(1.05);
-}
-
-.thumbnail {
-    width: 150px;
-    height: 100px;
-    object-fit: cover;
-}
-
-.title {
-    margin-top: 5px;
-    font-size: 1rem;
-    font-weight: bold;
-}
-
-footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 10px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+    margin: 1rem;
+    display: inline-block;
 }
