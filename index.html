@@ -11,6 +11,16 @@
         <div class="logo">VideoHub</div>
     </nav>
 
+    <!-- Video Upload Section -->
+    <section id="upload-section">
+        <h2>Upload Your Video</h2>
+        <form id="uploadForm">
+            <input type="file" id="videoFile" accept="video/*" required>
+            <button type="submit">Upload</button>
+        </form>
+        <p id="uploadStatus"></p>
+    </section>
+
     <!-- Video Player Section -->
     <section id="player-section">
         <video id="videoPlayer" controls>
