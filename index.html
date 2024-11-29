@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VideoHub</title>
+    <title>VideoHub - Upload & View Videos</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -11,29 +11,30 @@
         <div class="logo">VideoHub</div>
     </nav>
 
-    <!-- Video Upload Section -->
-    <section id="upload-section">
+    <!-- Video Upload Form -->
+    <section class="upload-section">
         <h2>Upload Your Video</h2>
         <form id="uploadForm">
             <input type="file" id="videoFile" accept="video/*" required>
-            <button type="submit">Upload</button>
+            <button type="submit">Upload Video</button>
         </form>
         <p id="uploadStatus"></p>
     </section>
 
-    <!-- Video Player Section -->
-    <section id="player-section">
+    <!-- Video Player -->
+    <section class="video-player">
+        <h2>Watch Video</h2>
         <video id="videoPlayer" controls>
             <source id="videoSource" src="" type="video/mp4">
             Your browser does not support the video tag.
         </video>
     </section>
 
-    <!-- Video Gallery Section -->
-    <section id="gallery-section">
+    <!-- Video Gallery -->
+    <section class="video-gallery">
         <h2>Uploaded Videos</h2>
         <div id="videoGrid" class="video-grid">
-            <!-- Dynamically populated by scripts.js -->
+            <!-- Dynamically populated -->
         </div>
     </section>
 
