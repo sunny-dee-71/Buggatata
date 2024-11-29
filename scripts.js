@@ -1,4 +1,3 @@
-// Select elements
 const uploadForm = document.getElementById('uploadForm');
 const videoFileInput = document.getElementById('videoFile');
 const uploadStatus = document.getElementById('uploadStatus');
@@ -22,7 +21,7 @@ uploadForm.addEventListener('submit', async (event) => {
     try {
         uploadStatus.textContent = 'Uploading...';
 
-        const response = await fetch('https://pokemon-backend-rj8e.onrender.com/upload', {
+        const response = await fetch('http://localhost:5000/upload', {
             method: 'POST',
             body: formData,
         });
@@ -43,7 +42,7 @@ uploadForm.addEventListener('submit', async (event) => {
 // Fetch and display uploaded videos
 async function loadUploadedVideos() {
     try {
-        const response = await fetch('https://pokemon-backend-rj8e.onrender.com/videos');
+        const response = await fetch('http://localhost:5000/videos');
         const videos = await response.json();
 
         // Clear existing videos
@@ -74,10 +73,9 @@ async function loadUploadedVideos() {
 
 // Play selected video in the video player
 function playVideo(videoUrl) {
-    // Set the video source to the selected video URL
     videoSource.src = videoUrl;
-    videoPlayer.load(); // Load the new video
-    videoPlayer.play(); // Play the video
+    videoPlayer.load();
+    videoPlayer.play();
 }
 
 // Load uploaded videos when the page loads
