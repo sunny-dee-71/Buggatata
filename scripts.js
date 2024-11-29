@@ -1,59 +1,32 @@
-const uploadForm = document.getElementById('uploadForm');
-const videoFileInput = document.getElementById('videoFile');
-const uploadStatus = document.getElementById('uploadStatus');
+// Select elements
+const videoPlayer = document.getElementById('videoPlayer');
+const videoSource = document.getElementById('videoSource');
 const videoGrid = document.getElementById('videoGrid');
 
-const BACKEND_URL = 'https://pokemon-backend-rj8e.onrender.com';
-
-// Handle video upload
-uploadForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-
-    const file = videoFileInput.files[0];
-    if (!file) {
-        uploadStatus.textContent = 'Please select a video file to upload.';
-        return;
-    }
-
-    const formData = new FormData();
-    formData.append('video', file);
-
-    try {
-        uploadStatus.textContent = 'Uploading...';
-
-        const response = await fetch(`${BACKEND_URL}/upload`, {
-            method: 'POST',
-            body: formData
-        });
-
-        const result = await response.json();
-        if (response.ok) {
-            uploadStatus.textContent = `Upload successful!`;
-            loadUploadedVideos();
-        } else {
-            uploadStatus.textContent = `Error: ${result.message}`;
-        }
-    } catch (error) {
-        uploadStatus.textContent = `Upload failed: ${error.message}`;
-    }
-});
-
-// Load uploaded videos
+// Fetch and display uploaded videos
 async function loadUploadedVideos() {
     try {
-        const response = await fetch(`${BACKEND_URL}/videos`);
+        const response = await fetch('https://pokemon-backend-rj8e.onrender.com/videos');
         const videos = await response.json();
 
+        // Clear existing videos
         videoGrid.innerHTML = '';
+
         if (videos.length === 0) {
-            videoGrid.innerHTML = '<p>No videos uploaded yet.</p>';
+            videoGrid.innerHTML = '<p>No videos available.</p>';
         } else {
-            videos.forEach(videoUrl => {
+            // Loop through videos and create thumbnail elements
+            videos.forEach((videoUrl) => {
                 const videoDiv = document.createElement('div');
                 videoDiv.classList.add('video-thumbnail');
+
                 videoDiv.innerHTML = `
-                    <video src="${BACKEND_URL}${videoUrl}" controls></video>
+                    <video src="https://pokemon-backend-rj8e.onrender.com${videoUrl}" muted></video>
+                    <div class="title">${videoUrl.split('/').pop()}</div>
                 `;
+
+                // Set the onclick handler to play the selected video
+                videoDiv.onclick = () => playVideo(videoUrl);
                 videoGrid.appendChild(videoDiv);
             });
         }
@@ -62,5 +35,12 @@ async function loadUploadedVideos() {
     }
 }
 
-// Load videos on page load
+// Play selected video in the video player
+function playVideo(videoUrl) {
+    videoSource.src = `https://pokemon-backend-rj8e.onrender.com${videoUrl}`;
+    videoPlayer.load();
+    videoPlayer.play();
+}
+
+// Load uploaded videos when the page loads
 window.onload = loadUploadedVideos;
