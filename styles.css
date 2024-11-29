@@ -1,81 +1,35 @@
-/* General Reset */
-body, html {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    box-sizing: border-box;
+/* Upload Section */
+#upload-section {
+    text-align: center;
+    padding: 1rem;
+    background: #f9f9f9;
+    border-bottom: 1px solid #ddd;
 }
 
-nav {
-    background-color: #333;
+#uploadForm {
+    display: inline-block;
+    margin-top: 0.5rem;
+}
+
+#uploadForm input[type="file"] {
+    margin-bottom: 0.5rem;
+}
+
+#uploadForm button {
+    padding: 0.5rem 1rem;
+    background-color: #007BFF;
     color: white;
-    padding: 1rem;
-    text-align: center;
-}
-
-.logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-/* Video Player Section */
-#player-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
-    background: #f4f4f4;
-}
-
-#videoPlayer {
-    width: 100%;
-    max-width: 720px;
-    height: auto;
-    border: 2px solid #333;
-    border-radius: 10px;
-}
-
-/* Gallery Section */
-#gallery-section {
-    padding: 1rem;
-    text-align: center;
-    background: #fff;
-}
-
-.video-grid {
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    justify-items: center;
-}
-
-.video-thumbnail {
-    cursor: pointer;
-    transition: transform 0.2s ease-in-out;
-}
-
-.video-thumbnail:hover {
-    transform: scale(1.05);
-}
-
-.video-thumbnail img {
-    width: 100%;
-    max-width: 150px;
-    height: auto;
+    border: none;
     border-radius: 5px;
+    cursor: pointer;
 }
 
-.video-thumbnail .title {
+#uploadForm button:hover {
+    background-color: #0056b3;
+}
+
+#uploadStatus {
     margin-top: 0.5rem;
     font-size: 0.9rem;
-    color: #333;
-}
-
-/* Footer */
-footer {
-    text-align: center;
-    padding: 1rem;
-    background-color: #333;
-    color: white;
-    margin-top: 1rem;
+    color: #555;
 }
