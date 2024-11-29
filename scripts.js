@@ -1,3 +1,4 @@
+// Select elements
 const uploadForm = document.getElementById('uploadForm');
 const videoFileInput = document.getElementById('videoFile');
 const uploadStatus = document.getElementById('uploadStatus');
@@ -21,7 +22,8 @@ uploadForm.addEventListener('submit', async (event) => {
     try {
         uploadStatus.textContent = 'Uploading...';
 
-        const response = await fetch('https://pokemon-backend-rj8e.onrender.com/upload', {
+        // Send the video file to the backend
+        const response = await fetch('https://pokemon-backend-rj8e.onrender.com.com/upload', {
             method: 'POST',
             body: formData,
         });
@@ -42,16 +44,17 @@ uploadForm.addEventListener('submit', async (event) => {
 // Fetch and display uploaded videos
 async function loadUploadedVideos() {
     try {
+        // Fetch the list of uploaded videos from the backend
         const response = await fetch('https://pokemon-backend-rj8e.onrender.com/videos');
         const videos = await response.json();
 
-        // Clear existing videos
+        // Clear existing videos in the gallery
         videoGrid.innerHTML = '';
 
         if (videos.length === 0) {
             videoGrid.innerHTML = '<p>No videos available.</p>';
         } else {
-            // Loop through videos and create thumbnail elements
+            // Loop through the videos and create elements for each video
             videos.forEach((videoUrl) => {
                 const videoDiv = document.createElement('div');
                 videoDiv.classList.add('video-thumbnail');
