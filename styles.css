@@ -1,35 +1,46 @@
-/* Upload Section */
-#upload-section {
-    text-align: center;
-    padding: 1rem;
-    background: #f9f9f9;
-    border-bottom: 1px solid #ddd;
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
-#uploadForm {
-    display: inline-block;
-    margin-top: 0.5rem;
+nav {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-#uploadForm input[type="file"] {
-    margin-bottom: 0.5rem;
+.logo {
+    font-size: 24px;
+    font-weight: bold;
 }
 
-#uploadForm button {
-    padding: 0.5rem 1rem;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 5px;
+.upload-section, .video-player, .video-gallery {
+    padding: 20px;
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.video-thumbnail {
     cursor: pointer;
+    text-align: center;
 }
 
-#uploadForm button:hover {
-    background-color: #0056b3;
+.video-thumbnail img {
+    width: 100%;
+    height: auto;
 }
 
-#uploadStatus {
-    margin-top: 0.5rem;
-    font-size: 0.9rem;
-    color: #555;
+video {
+    width: 100%;
+    max-width: 600px;
+    display: block;
+    margin: 0 auto;
 }
