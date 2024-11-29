@@ -1,3 +1,4 @@
+/* General styling */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -7,71 +8,51 @@ body {
 
 nav {
     background-color: #333;
-    color: #fff;
+    color: white;
     padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
 nav .logo {
-    font-size: 1.5em;
+    font-size: 24px;
+}
+
+nav .menu {
+    float: right;
 }
 
 nav .menu a {
-    color: #fff;
+    color: white;
     text-decoration: none;
-    padding: 0 10px;
+    margin: 0 10px;
+}
+
+.search-bar {
+    float: right;
+    margin-top: 10px;
 }
 
 .search-bar input {
     padding: 5px;
-    border: 1px solid #ccc;
 }
 
-.upload-section, .video-gallery {
-    margin: 20px;
+/* Video gallery and upload section */
+.upload-section,
+.video-gallery {
+    padding: 20px;
 }
 
-.upload-section button {
-    padding: 10px 20px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-.upload-section button:hover {
-    background-color: #218838;
-}
-
-.video-player video {
-    max-width: 100%;
-    height: auto;
-}
-
-.video-gallery .video-thumbnail {
-    display: inline-block;
-    margin: 10px;
-    text-align: center;
-}
-
-.video-thumbnail img {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    cursor: pointer;
-}
-
-.title {
-    margin-top: 5px;
-    font-size: 0.9em;
-}
-
-footer {
-    text-align: center;
-    margin-top: 20px;
-    background-color: #333;
-    color: white;
+.upload-section input[type="file"] {
     padding: 10px;
+    width: 100%;
 }
+
+.video-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.video-thumbnail {
+    background: #fff;
+    padding: 10px;
+    width:
