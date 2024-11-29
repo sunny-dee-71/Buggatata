@@ -46,44 +46,38 @@ async function loadUploadedVideos() {
         const response = await fetch('https://pokemon-backend-rj8e.onrender.com/videos');
         const videos = await response.json();
 
-        // Check if the response is an array
-        if (Array.isArray(videos)) {
-            // Clear existing videos
-            videoGrid.innerHTML = '';
+        // Clear existing videos
+        videoGrid.innerHTML = '';
 
-            if (videos.length === 0) {
-                videoGrid.innerHTML = '<p>No videos available.</p>';
-            } else {
-                videos.forEach((video) => {
-                    const videoDiv = document.createElement('div');
-                    videoDiv.classList.add('video-thumbnail');
-
-                    videoDiv.innerHTML = `
-                        <div class="video-thumbnail-container">
-                            <img src="https://via.placeholder.com/150" alt="Thumbnail" class="thumbnail">
-                            <div class="title">${video.url}</div>
-                        </div>
-                    `;
-
-                    // Set the onclick handler to play the selected video
-                    videoDiv.onclick = () => playVideo(video.url);
-                    videoGrid.appendChild(videoDiv);
-                });
-            }
+        if (videos.length === 0) {
+            videoGrid.innerHTML = '<p>No videos available.</p>';
         } else {
-            console.error('Expected an array of videos, but received:', videos);
+            // Loop through videos and create thumbnail elements
+            videos.forEach((videoUrl) => {
+                const videoDiv = document.createElement('div');
+                videoDiv.classList.add('video-thumbnail');
+
+                videoDiv.innerHTML = `
+                    <img src="https://via.placeholder.com/150" alt="Thumbnail" class="thumbnail">
+                    <div class="title">${videoUrl}</div>
+                `;
+
+                // Set the onclick handler to play the selected video
+                videoDiv.onclick = () => playVideo(videoUrl);
+                videoGrid.appendChild(videoDiv);
+            });
         }
     } catch (error) {
         console.error('Error loading videos:', error);
     }
 }
 
-
 // Play selected video in the video player
 function playVideo(videoUrl) {
+    // Set the video source to the selected video URL
     videoSource.src = videoUrl;
-    videoPlayer.load();
-    videoPlayer.play();
+    videoPlayer.load(); // Load the new video
+    videoPlayer.play(); // Play the video
 }
 
 // Load uploaded videos when the page loads
