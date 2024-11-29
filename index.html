@@ -11,18 +11,20 @@
         <div class="logo">VideoHub</div>
     </nav>
 
-    <section class="upload-section">
-        <h2>Upload Your Video</h2>
-        <form id="uploadForm">
-            <input type="file" id="videoFile" accept="video/*" required>
-            <button type="submit">Upload Video</button>
-        </form>
-        <p id="uploadStatus"></p>
+    <!-- Video Player Section -->
+    <section id="player-section">
+        <video id="videoPlayer" controls>
+            <source id="videoSource" src="" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
     </section>
 
-    <section class="video-gallery">
+    <!-- Video Gallery Section -->
+    <section id="gallery-section">
         <h2>Uploaded Videos</h2>
-        <div id="videoGrid"></div>
+        <div id="videoGrid" class="video-grid">
+            <!-- Dynamically populated by scripts.js -->
+        </div>
     </section>
 
     <footer>
