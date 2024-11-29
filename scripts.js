@@ -19,7 +19,7 @@ uploadForm.addEventListener('submit', async (event) => {
 
     try {
         uploadStatus.textContent = 'Uploading...';
-        const response = await fetch('https://your-backend-url.onrender.com/upload', {
+        const response = await fetch('//https://pokemon-backend-rj8e.onrender.com/upload', {
             method: 'POST',
             body: formData,
         });
@@ -39,7 +39,7 @@ uploadForm.addEventListener('submit', async (event) => {
 // Load videos
 async function loadVideos() {
     try {
-        const response = await fetch('https://your-backend-url.onrender.com/videos');
+        const response = await fetch('https://pokemon-backend-rj8e.onrender.com/videos');
         const videos = await response.json();
         videoGrid.innerHTML = ''; // Clear existing videos
 
