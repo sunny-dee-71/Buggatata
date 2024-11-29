@@ -1,17 +1,16 @@
 const uploadForm = document.getElementById('uploadForm');
 const videoFileInput = document.getElementById('videoFile');
 const uploadStatus = document.getElementById('uploadStatus');
+const videoGrid = document.getElementById('videoGrid');
 const videoPlayer = document.getElementById('videoPlayer');
 const videoSource = document.getElementById('videoSource');
-const videoGrid = document.getElementById('videoGrid');
 
-// Handle video upload
+// Upload video
 uploadForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     const file = videoFileInput.files[0];
-
     if (!file) {
-        uploadStatus.textContent = 'Please select a video file to upload.';
+        uploadStatus.textContent = 'Please select a video file.';
         return;
     }
 
@@ -20,17 +19,15 @@ uploadForm.addEventListener('submit', async (event) => {
 
     try {
         uploadStatus.textContent = 'Uploading...';
-
-        const response = await fetch('https://pokemon-backend-rj8e.onrender.com/upload', {
+        const response = await fetch('https://your-backend-url.onrender.com/upload', {
             method: 'POST',
             body: formData,
         });
 
         const result = await response.json();
-
         if (response.ok) {
             uploadStatus.textContent = 'Upload successful!';
-            loadUploadedVideos();
+            loadVideos(); // Refresh gallery
         } else {
             uploadStatus.textContent = `Error: ${result.message}`;
         }
@@ -39,39 +36,40 @@ uploadForm.addEventListener('submit', async (event) => {
     }
 });
 
-// Fetch and display uploaded videos
-async function loadUploadedVideos() {
+// Load videos
+async function loadVideos() {
     try {
-        const response = await fetch('https://pokemon-backend-rj8e.onrender.com/videos');
-        const videoUrls = await response.json();
+        const response = await fetch('https://your-backend-url.onrender.com/videos');
+        const videos = await response.json();
+        videoGrid.innerHTML = ''; // Clear existing videos
 
-        videoGrid.innerHTML = '';
-
-        if (videoUrls.length === 0) {
+        if (videos.length === 0) {
             videoGrid.innerHTML = '<p>No videos available.</p>';
-            return;
+        } else {
+            videos.forEach((video) => {
+                const videoDiv = document.createElement('div');
+                videoDiv.classList.add('video-thumbnail');
+                videoDiv.innerHTML = `
+                    <video width="200" controls>
+                        <source src="${video.url}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                `;
+                videoDiv.onclick = () => playVideo(video.url);
+                videoGrid.appendChild(videoDiv);
+            });
         }
-
-        videoUrls.forEach((url) => {
-            const videoDiv = document.createElement('div');
-            videoDiv.classList.add('video-thumbnail');
-            videoDiv.innerHTML = `
-                <video src="${url}" controls></video>
-            `;
-            videoDiv.onclick = () => playVideo(url);
-            videoGrid.appendChild(videoDiv);
-        });
     } catch (error) {
         console.error('Error loading videos:', error);
     }
 }
 
-// Play selected video
-function playVideo(videoUrl) {
-    videoSource.src = videoUrl;
+// Play video
+function playVideo(url) {
+    videoSource.src = url;
     videoPlayer.load();
     videoPlayer.play();
 }
 
 // Load videos on page load
-window.onload = loadUploadedVideos;
+window.onload = loadVideos;
