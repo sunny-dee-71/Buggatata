@@ -6,41 +6,24 @@ body {
 
 nav {
     background-color: #333;
-    color: #fff;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
-    font-size: 24px;
-    font-weight: bold;
+    color: white;
+    padding: 10px;
+    text-align: center;
 }
 
 .upload-section, .video-player, .video-gallery {
-    padding: 20px;
+    margin: 20px;
+    text-align: center;
 }
 
 .video-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 10px;
 }
 
 .video-thumbnail {
+    width: 200px;
     cursor: pointer;
-    text-align: center;
-}
-
-.video-thumbnail img {
-    width: 100%;
-    height: auto;
-}
-
-video {
-    width: 100%;
-    max-width: 600px;
-    display: block;
-    margin: 0 auto;
 }
