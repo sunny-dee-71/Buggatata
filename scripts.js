@@ -8,11 +8,12 @@ const videoGrid = document.getElementById('videoGrid');
 
 // Handle video upload
 uploadForm.addEventListener('submit', async (event) => {
-    event.preventDefault(); // Prevent form from submitting normally
+    event.preventDefault(); // Prevent the form from submitting normally
 
     const file = videoFileInput.files[0];
     if (!file) {
         uploadStatus.textContent = 'Please select a video file to upload.';
+        uploadStatus.style.color = 'red';
         return;
     }
 
@@ -21,22 +22,26 @@ uploadForm.addEventListener('submit', async (event) => {
 
     try {
         uploadStatus.textContent = 'Uploading...';
+        uploadStatus.style.color = 'blue';
 
         const response = await fetch('https://pokemon-backend-rj8e.onrender.com/upload', {
             method: 'POST',
             body: formData,
         });
 
-        const result = await response.json();
-
-        if (response.ok) {
-            uploadStatus.textContent = 'Upload successful!';
-            loadUploadedVideos(); // Reload the gallery
-        } else {
-            uploadStatus.textContent = `Error: ${result.message}`;
+        if (!response.ok) {
+            const errorResult = await response.json();
+            throw new Error(errorResult.message || 'Failed to upload video');
         }
+
+        const result = await response.json();
+        uploadStatus.textContent = 'Upload successful!';
+        uploadStatus.style.color = 'green';
+        loadUploadedVideos(); // Refresh the gallery
     } catch (error) {
+        console.error('Upload error:', error);
         uploadStatus.textContent = `Upload failed: ${error.message}`;
+        uploadStatus.style.color = 'red';
     }
 });
 
@@ -44,6 +49,8 @@ uploadForm.addEventListener('submit', async (event) => {
 async function loadUploadedVideos() {
     try {
         const response = await fetch('https://pokemon-backend-rj8e.onrender.com/videos');
+        if (!response.ok) throw new Error('Failed to fetch videos');
+
         const videos = await response.json();
 
         // Clear existing videos
@@ -67,6 +74,7 @@ async function loadUploadedVideos() {
         }
     } catch (error) {
         console.error('Error loading videos:', error);
+        videoGrid.innerHTML = '<p>Error loading videos. Please try again later.</p>';
     }
 }
 
@@ -77,5 +85,5 @@ function playVideo(videoUrl) {
     videoPlayer.play();
 }
 
-// Load uploaded videos on page load
+// Load uploaded videos when the page loads
 window.onload = loadUploadedVideos;
