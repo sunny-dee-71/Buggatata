@@ -1,60 +1,66 @@
-const express = require('express');
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
-const cors = require('cors');
-const app = express();
-const PORT = process.env.PORT || 3000;
+const uploadForm = document.getElementById('uploadForm');
+const videoFileInput = document.getElementById('videoFile');
+const uploadStatus = document.getElementById('uploadStatus');
+const videoGrid = document.getElementById('videoGrid');
 
-// Enable CORS for all requests
-app.use(cors());
+const BACKEND_URL = 'https://pokemon-backend-rj8e.onrender.com';
 
-// Set up multer storage engine to store videos in 'uploads' folder
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads'); // Store uploaded videos in 'uploads' directory
-    },
-    filename: function (req, file, cb) {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname)); // Ensure unique filenames
+// Handle video upload
+uploadForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const file = videoFileInput.files[0];
+    if (!file) {
+        uploadStatus.textContent = 'Please select a video file to upload.';
+        return;
     }
-});
 
-const upload = multer({ storage: storage });
+    const formData = new FormData();
+    formData.append('video', file);
 
-// Serve static files (videos) from the 'uploads' directory
-app.use('/uploads', express.static('uploads'));
+    try {
+        uploadStatus.textContent = 'Uploading...';
 
-// Endpoint to handle video uploads
-app.post('/upload', upload.single('video'), (req, res) => {
-    if (!req.file) {
-        return res.status(400).json({ message: 'No file uploaded.' });
-    }
-    const videoUrl = `/uploads/${req.file.filename}`;
-    res.json({ videoUrl: videoUrl });
-});
+        const response = await fetch(`${BACKEND_URL}/upload`, {
+            method: 'POST',
+            body: formData
+        });
 
-// Endpoint to get the list of uploaded videos
-app.get('/videos', (req, res) => {
-    const videoDirectory = path.join(__dirname, 'uploads');
-    fs.readdir(videoDirectory, (err, files) => {
-        if (err) {
-            return res.status(500).json({ message: 'Error reading video directory.' });
+        const result = await response.json();
+        if (response.ok) {
+            uploadStatus.textContent = `Upload successful!`;
+            loadUploadedVideos();
+        } else {
+            uploadStatus.textContent = `Error: ${result.message}`;
         }
-
-        // Filter out non-video files (you can expand this to check more formats)
-        const videoFiles = files.filter(file => file.endsWith('.mp4'));
-
-        // Map video file names to URLs
-        const videoUrls = videoFiles.map(file => `/uploads/${file}`);
-        res.json(videoUrls);
-    });
+    } catch (error) {
+        uploadStatus.textContent = `Upload failed: ${error.message}`;
+    }
 });
 
-// Serve the frontend files (optional if hosting frontend elsewhere)
-app.use(express.static('public'));
+// Load uploaded videos
+async function loadUploadedVideos() {
+    try {
+        const response = await fetch(`${BACKEND_URL}/videos`);
+        const videos = await response.json();
 
-// Start the server
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+        videoGrid.innerHTML = '';
+        if (videos.length === 0) {
+            videoGrid.innerHTML = '<p>No videos uploaded yet.</p>';
+        } else {
+            videos.forEach(videoUrl => {
+                const videoDiv = document.createElement('div');
+                videoDiv.classList.add('video-thumbnail');
+                videoDiv.innerHTML = `
+                    <video src="${BACKEND_URL}${videoUrl}" controls></video>
+                `;
+                videoGrid.appendChild(videoDiv);
+            });
+        }
+    } catch (error) {
+        console.error('Error loading videos:', error);
+    }
+}
+
+// Load videos on page load
+window.onload = loadUploadedVideos;
