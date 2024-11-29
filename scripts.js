@@ -19,7 +19,7 @@ uploadForm.addEventListener('submit', async (event) => {
 
     try {
         uploadStatus.textContent = 'Uploading...';
-        const response = await fetch('//https://pokemon-backend-rj8e.onrender.com/upload', {
+        const response = await fetch('https://pokemon-backend-rj8e.onrender.com/upload', {
             method: 'POST',
             body: formData,
         });
