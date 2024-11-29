@@ -22,8 +22,7 @@ uploadForm.addEventListener('submit', async (event) => {
     try {
         uploadStatus.textContent = 'Uploading...';
 
-        // Send the video file to the backend
-        const response = await fetch('https://pokemon-backend-rj8e.onrender.com.com/upload', {
+        const response = await fetch('https://pokemon-backend-rj8e.onrender.com/upload', {
             method: 'POST',
             body: formData,
         });
@@ -44,28 +43,27 @@ uploadForm.addEventListener('submit', async (event) => {
 // Fetch and display uploaded videos
 async function loadUploadedVideos() {
     try {
-        // Fetch the list of uploaded videos from the backend
         const response = await fetch('https://pokemon-backend-rj8e.onrender.com/videos');
         const videos = await response.json();
 
-        // Clear existing videos in the gallery
+        // Clear existing videos
         videoGrid.innerHTML = '';
 
         if (videos.length === 0) {
             videoGrid.innerHTML = '<p>No videos available.</p>';
         } else {
-            // Loop through the videos and create elements for each video
-            videos.forEach((videoUrl) => {
+            // Loop through videos and create thumbnail elements
+            videos.forEach((video) => {
                 const videoDiv = document.createElement('div');
                 videoDiv.classList.add('video-thumbnail');
 
                 videoDiv.innerHTML = `
                     <img src="https://via.placeholder.com/150" alt="Thumbnail" class="thumbnail">
-                    <div class="title">${videoUrl}</div>
+                    <div class="title">${video.url}</div>
                 `;
 
                 // Set the onclick handler to play the selected video
-                videoDiv.onclick = () => playVideo(videoUrl);
+                videoDiv.onclick = () => playVideo(video.url);
                 videoGrid.appendChild(videoDiv);
             });
         }
