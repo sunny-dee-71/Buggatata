@@ -1,3 +1,4 @@
+// Select elements
 const uploadForm = document.getElementById('uploadForm');
 const videoFileInput = document.getElementById('videoFile');
 const uploadStatus = document.getElementById('uploadStatus');
@@ -7,7 +8,7 @@ const videoGrid = document.getElementById('videoGrid');
 
 // Handle video upload
 uploadForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
+    event.preventDefault(); // Prevent the form from submitting normally
 
     const file = videoFileInput.files[0];
     if (!file) {
@@ -16,7 +17,7 @@ uploadForm.addEventListener('submit', async (event) => {
     }
 
     const formData = new FormData();
-    formData.append('video', file);
+    formData.append('video', file); // Attach video file to form data
 
     try {
         uploadStatus.textContent = 'Uploading...';
@@ -26,15 +27,16 @@ uploadForm.addEventListener('submit', async (event) => {
             body: formData,
         });
 
+        if (!response.ok) {
+            throw new Error(`Server responded with ${response.status}`);
+        }
+
         const result = await response.json();
 
-        if (response.ok) {
-            uploadStatus.textContent = `Upload successful! Video URL: ${result.videoUrl}`;
-            loadUploadedVideos();
-        } else {
-            uploadStatus.textContent = `Error: ${result.message}`;
-        }
+        uploadStatus.textContent = 'Upload successful!';
+        loadUploadedVideos(); // Reload the video gallery
     } catch (error) {
+        console.error('Error uploading video:', error);
         uploadStatus.textContent = `Upload failed: ${error.message}`;
     }
 });
@@ -43,6 +45,11 @@ uploadForm.addEventListener('submit', async (event) => {
 async function loadUploadedVideos() {
     try {
         const response = await fetch('https://pokemon-backend-rj8e.onrender.com/videos');
+
+        if (!response.ok) {
+            throw new Error(`Server responded with ${response.status}`);
+        }
+
         const videos = await response.json();
 
         // Clear existing videos
@@ -51,23 +58,36 @@ async function loadUploadedVideos() {
         if (videos.length === 0) {
             videoGrid.innerHTML = '<p>No videos available.</p>';
         } else {
+            // Loop through videos and create thumbnail elements
             videos.forEach((video) => {
                 const videoDiv = document.createElement('div');
                 videoDiv.classList.add('video-thumbnail');
 
                 videoDiv.innerHTML = `
-                    <img src="${video.thumbnailUrl}" alt="Thumbnail" class="thumbnail">
-                    <p>${video.videoUrl.split('/').pop()}</p>
+                    <video class="thumbnail" controls>
+                        <source src="${video.url}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <p>${video.name || 'Untitled Video'}</p>
                 `;
 
-                videoDiv.onclick = () => playVideo(video.videoUrl);
+                // Set the onclick handler to play the selected video
+                videoDiv.onclick = () => playVideo(video.url);
                 videoGrid.appendChild(videoDiv);
             });
         }
     } catch (error) {
         console.error('Error loading videos:', error);
+        videoGrid.innerHTML = `<p>Error loading videos: ${error.message}</p>`;
     }
 }
 
-// Load videos when the page loads
+// Play selected video in the video player
+function playVideo(videoUrl) {
+    videoSource.src = videoUrl;
+    videoPlayer.load();
+    videoPlayer.play();
+}
+
+// Load uploaded videos when the page loads
 window.onload = loadUploadedVideos;
