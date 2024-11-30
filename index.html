@@ -3,42 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VideoHub - Upload & View Videos</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Video Upload and Gallery</title>
+    <style>
+        /* Add your styling here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .upload-section {
+            margin-bottom: 20px;
+        }
+        .upload-section input {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            font-size: 16px;
+        }
+        #videoGrid {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .video-thumbnail {
+            margin: 10px;
+            text-align: center;
+            width: 150px;
+        }
+        .video-thumbnail video {
+            width: 100%;
+        }
+        .video-thumbnail .title {
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-    <nav>
-        <div class="logo">VideoHub</div>
-    </nav>
-
-    <!-- Video Upload Form -->
     <section class="upload-section">
         <h2>Upload Your Video</h2>
         <form id="uploadForm">
+            <input type="text" id="videoTitle" placeholder="Enter video title" required>
             <input type="file" id="videoFile" accept="video/*" required>
             <button type="submit">Upload Video</button>
         </form>
         <p id="uploadStatus"></p>
     </section>
 
-    <!-- Video Player -->
-    <section class="video-player">
-        <h2>Watch Video</h2>
-        <video id="videoPlayer" controls>
-            <source id="videoSource" src="" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+    <section class="gallery-section">
+        <h2>Video Gallery</h2>
+        <div id="videoGrid"></div>
     </section>
 
-    <!-- Video Gallery -->
-    <section class="video-gallery">
-        <h2>Uploaded Videos</h2>
-        <div id="videoGrid" class="video-grid"></div>
-    </section>
-
-    <footer>
-        <p>&copy; 2024 VideoHub. All rights reserved.</p>
-    </footer>
+    <video id="videoPlayer" controls style="width: 100%; margin-top: 20px;">
+        <source id="videoSource" src="" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
 
     <script src="scripts.js"></script>
 </body>
