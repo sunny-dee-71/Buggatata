@@ -1,69 +1,83 @@
-const express = require('express');
-const multer = require('multer');
-const cloudinary = require('cloudinary').v2;
-const dotenv = require('dotenv');
-const cors = require('cors'); // Import CORS package
+// Select elements
+const uploadForm = document.getElementById('uploadForm');
+const videoFileInput = document.getElementById('videoFile');
+const uploadStatus = document.getElementById('uploadStatus');
+const videoPlayer = document.getElementById('videoPlayer');
+const videoSource = document.getElementById('videoSource');
+const videoGrid = document.getElementById('videoGrid');
 
-// Load environment variables from .env file
-dotenv.config();
+// Handle video upload
+uploadForm.addEventListener('submit', async (event) => {
+    event.preventDefault(); // Prevent the form from submitting normally
 
-const app = express();
-const upload = multer();
+    const file = videoFileInput.files[0];
+    if (!file) {
+        uploadStatus.textContent = 'Please select a video file to upload.';
+        return;
+    }
 
-// Cloudinary configuration
-cloudinary.config({
-    cloud_name: process.env.CLOUD_NAME,
-    api_key: process.env.API_KEY,
-    api_secret: process.env.API_SECRET,
-});
+    const formData = new FormData();
+    formData.append('video', file); // Attach video file to form data
 
-// Enable CORS for all origins (or you can specify the exact frontend URL)
-app.use(cors()); // This will allow your frontend to communicate with the backend
-
-// Middleware to parse incoming JSON data
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Endpoint to upload video
-app.post('/upload', upload.single('video'), async (req, res) => {
     try {
-        const fileStr = req.file.buffer.toString('base64'); // Convert buffer to base64 string
+        uploadStatus.textContent = 'Uploading...';
 
-        // Upload video to Cloudinary without specifying a folder
-        const uploadResponse = await cloudinary.uploader.upload(fileStr, {
-            resource_type: 'video', // Specify the resource type as video
+        const response = await fetch('https://pokemon-backend-rj8e.onrender.com/upload', {
+            method: 'POST',
+            body: formData,
         });
 
-        res.json({ url: uploadResponse.secure_url });
+        const result = await response.json();
+
+        if (response.ok) {
+            uploadStatus.textContent = `Upload successful! Video available at: ${result.url}`;
+            loadUploadedVideos(); // Reload the video gallery
+        } else {
+            uploadStatus.textContent = `Error: ${result.message}`;
+        }
     } catch (error) {
-        console.error('Error uploading video:', error);
-        res.status(500).json({ message: 'Error uploading video' });
+        uploadStatus.textContent = `Upload failed: ${error.message}`;
     }
 });
 
-// Endpoint to get videos from Cloudinary
-app.get('/videos', async (req, res) => {
+// Fetch and display uploaded videos
+async function loadUploadedVideos() {
     try {
-        const resources = await cloudinary.api.resources({
-            type: 'upload',             // Type is 'upload' for media uploaded through your account
-            resource_type: 'video',     // We're specifically working with video files
-            max_results: 50,            // Adjust the number of results based on your needs
-        });
+        const response = await fetch('https://pokemon-backend-rj8e.onrender.com/videos');
+        const videos = await response.json();
 
-        const videos = resources.resources.map((video) => ({
-            url: video.secure_url,
-            name: video.public_id,
-        }));
+        // Clear existing videos
+        videoGrid.innerHTML = '';
 
-        res.json(videos); // Return the list of videos
+        if (videos.length === 0) {
+            videoGrid.innerHTML = '<p>No videos available.</p>';
+        } else {
+            // Loop through videos and create thumbnail elements
+            videos.forEach((video) => {
+                const videoDiv = document.createElement('div');
+                videoDiv.classList.add('video-thumbnail');
+
+                videoDiv.innerHTML = `
+                    <img src="https://via.placeholder.com/150" alt="Thumbnail" class="thumbnail">
+                    <div class="title">${video.name}</div>
+                `;
+
+                // Set the onclick handler to play the selected video
+                videoDiv.onclick = () => playVideo(video.url);
+                videoGrid.appendChild(videoDiv);
+            });
+        }
     } catch (error) {
-        console.error('Error fetching videos:', error);
-        res.status(500).json({ message: 'Error fetching videos' });
+        console.error('Error loading videos:', error);
     }
-});
+}
 
-// Start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+// Play selected video in the video player
+function playVideo(videoUrl) {
+    videoSource.src = videoUrl;
+    videoPlayer.load();
+    videoPlayer.play();
+}
+
+// Load uploaded videos when the page loads
+window.onload = loadUploadedVideos;
