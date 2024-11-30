@@ -45,18 +45,22 @@ async function loadUploadedVideos() {
         const response = await fetch('https://pokemon-backend-rj8e.onrender.com/videos');
         const videos = await response.json();
 
+        // Clear existing videos
         videoGrid.innerHTML = '';
 
         if (videos.length === 0) {
             videoGrid.innerHTML = '<p>No videos available.</p>';
         } else {
-            videos.forEach((videoUrl) => {
+            videos.forEach((video) => {
                 const videoDiv = document.createElement('div');
                 videoDiv.classList.add('video-thumbnail');
 
                 videoDiv.innerHTML = `
-                    <video src="${videoUrl}" controls width="100%" height="auto"></video>
+                    <img src="${video.thumbnailUrl}" alt="Thumbnail" class="thumbnail">
+                    <p>${video.videoUrl.split('/').pop()}</p>
                 `;
+
+                videoDiv.onclick = () => playVideo(video.videoUrl);
                 videoGrid.appendChild(videoDiv);
             });
         }
