@@ -1,23 +1,27 @@
 // Select elements
 const uploadForm = document.getElementById('uploadForm');
+const videoTitleInput = document.getElementById('videoTitle'); // Video title input
 const videoFileInput = document.getElementById('videoFile');
 const uploadStatus = document.getElementById('uploadStatus');
-const videoPlayer = document.getElementById('videoPlayer');
-const videoSource = document.getElementById('videoSource');
-const videoGrid = document.getElementById('videoGrid');
 
 // Handle video upload
 uploadForm.addEventListener('submit', async (event) => {
     event.preventDefault(); // Prevent the form from submitting normally
 
     const file = videoFileInput.files[0];
+    const title = videoTitleInput.value.trim(); // Get the entered title
     if (!file) {
         uploadStatus.textContent = 'Please select a video file to upload.';
         return;
     }
+    if (!title) {
+        uploadStatus.textContent = 'Please enter a title for the video.';
+        return;
+    }
 
     const formData = new FormData();
-    formData.append('video', file); // Attach video file to form data
+    formData.append('video', file); // Attach the video file
+    formData.append('title', title); // Add the video title
 
     try {
         uploadStatus.textContent = 'Uploading...';
@@ -40,13 +44,14 @@ uploadForm.addEventListener('submit', async (event) => {
     }
 });
 
-// Fetch and display uploaded videos
+// Function to load uploaded videos
 async function loadUploadedVideos() {
     try {
         const response = await fetch('https://pokemon-backend-rj8e.onrender.com/videos');
         const videos = await response.json();
 
         // Clear existing videos
+        const videoGrid = document.getElementById('videoGrid');
         videoGrid.innerHTML = '';
 
         if (videos.length === 0) {
@@ -58,8 +63,11 @@ async function loadUploadedVideos() {
                 videoDiv.classList.add('video-thumbnail');
 
                 videoDiv.innerHTML = `
-                    <img src="https://via.placeholder.com/150" alt="Thumbnail" class="thumbnail">
-                    <div class="title">${video.name}</div>
+                    <div class="title">${video.title}</div>
+                    <video width="150" height="auto" controls>
+                        <source src="${video.url}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                 `;
 
                 // Set the onclick handler to play the selected video
@@ -74,6 +82,8 @@ async function loadUploadedVideos() {
 
 // Play selected video in the video player
 function playVideo(videoUrl) {
+    const videoPlayer = document.getElementById('videoPlayer');
+    const videoSource = document.getElementById('videoSource');
     videoSource.src = videoUrl;
     videoPlayer.load();
     videoPlayer.play();
