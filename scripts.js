@@ -7,7 +7,7 @@ const videoGrid = document.getElementById('videoGrid');
 
 // Handle video upload
 uploadForm.addEventListener('submit', async (event) => {
-    event.preventDefault(); // Prevent the form from submitting normally
+    event.preventDefault();
 
     const file = videoFileInput.files[0];
     if (!file) {
@@ -16,7 +16,7 @@ uploadForm.addEventListener('submit', async (event) => {
     }
 
     const formData = new FormData();
-    formData.append('video', file); // Attach video file to form data
+    formData.append('video', file);
 
     try {
         uploadStatus.textContent = 'Uploading...';
@@ -29,8 +29,8 @@ uploadForm.addEventListener('submit', async (event) => {
         const result = await response.json();
 
         if (response.ok) {
-            uploadStatus.textContent = `Upload successful! Video available at: ${result.videoUrl}`;
-            loadUploadedVideos(); // Reload the video gallery
+            uploadStatus.textContent = `Upload successful! Video URL: ${result.videoUrl}`;
+            loadUploadedVideos();
         } else {
             uploadStatus.textContent = `Error: ${result.message}`;
         }
@@ -45,24 +45,18 @@ async function loadUploadedVideos() {
         const response = await fetch('https://pokemon-backend-rj8e.onrender.com/videos');
         const videos = await response.json();
 
-        // Clear existing videos
         videoGrid.innerHTML = '';
 
         if (videos.length === 0) {
             videoGrid.innerHTML = '<p>No videos available.</p>';
         } else {
-            // Loop through videos and create thumbnail elements
             videos.forEach((videoUrl) => {
                 const videoDiv = document.createElement('div');
                 videoDiv.classList.add('video-thumbnail');
 
                 videoDiv.innerHTML = `
-                    <img src="https://via.placeholder.com/150" alt="Thumbnail" class="thumbnail">
-                    <div class="title">${videoUrl}</div>
+                    <video src="${videoUrl}" controls width="100%" height="auto"></video>
                 `;
-
-                // Set the onclick handler to play the selected video
-                videoDiv.onclick = () => playVideo(videoUrl);
                 videoGrid.appendChild(videoDiv);
             });
         }
@@ -71,12 +65,5 @@ async function loadUploadedVideos() {
     }
 }
 
-// Play selected video in the video player
-function playVideo(videoUrl) {
-    videoSource.src = videoUrl;
-    videoPlayer.load();
-    videoPlayer.play();
-}
-
-// Load uploaded videos when the page loads
+// Load videos when the page loads
 window.onload = loadUploadedVideos;
