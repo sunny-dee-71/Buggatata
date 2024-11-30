@@ -1,49 +1,29 @@
-/* General styling */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 nav {
-    background-color: #333;
-    color: white;
-    padding: 10px;
-}
-
-nav .logo {
-    font-size: 24px;
-}
-
-nav .menu {
-    float: right;
-}
-
-nav .menu a {
-    color: white;
-    text-decoration: none;
-    margin: 0 10px;
-}
-
-.search-bar {
-    float: right;
-    margin-top: 10px;
-}
-
-.search-bar input {
-    padding: 5px;
-}
-
-/* Video gallery and upload section */
-.upload-section,
-.video-gallery {
-    padding: 20px;
-}
-
-.upload-section input[type="file"] {
-    padding: 10px;
     width: 100%;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+.upload-section, .video-player, .video-gallery {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px 0;
+}
+
+button {
+    margin-top: 10px;
 }
 
 .video-grid {
@@ -53,6 +33,6 @@ nav .menu a {
 }
 
 .video-thumbnail {
-    background: #fff;
-    padding: 10px;
-    width:
+    flex: 1 1 calc(33.333% - 10px);
+    box-sizing: border-box;
+}
