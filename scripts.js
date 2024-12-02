@@ -57,14 +57,12 @@ async function loadUploadedVideos() {
             videoDiv.classList.add('video-thumbnail');
 
             videoDiv.innerHTML = `
-                <video muted>
-                    <source src="${video.url}" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
+                <img src="${video.thumbnail || 'placeholder.png'}" alt="Video Thumbnail">
                 <p>${video.name}</p>
             `;
 
-            videoDiv.addEventListener('click', () => playVideo(video.url)); // Correct event binding
+            // Attach event listener for click
+            videoDiv.addEventListener('click', () => playVideo(video.url));
             videoGrid.appendChild(videoDiv);
         });
     } catch (error) {
@@ -72,10 +70,10 @@ async function loadUploadedVideos() {
     }
 }
 
-// Play Video
+// Play Video in Main Player
 function playVideo(videoUrl) {
-    videoSource.src = videoUrl;
-    videoPlayer.load(); // Load the new video source
+    videoSource.src = videoUrl; // Update video source
+    videoPlayer.load(); // Reload the video player
     videoPlayer.play(); // Play the video
 }
 
