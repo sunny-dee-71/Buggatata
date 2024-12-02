@@ -51,7 +51,7 @@ async function loadUploadedVideos() {
         if (!response.ok) throw new Error(`Server responded with ${response.status}`);
         const videos = await response.json();
 
-        videoGrid.innerHTML = '';
+        videoGrid.innerHTML = ''; // Clear the gallery
         videos.forEach((video) => {
             const videoDiv = document.createElement('div');
             videoDiv.classList.add('video-thumbnail');
@@ -64,7 +64,7 @@ async function loadUploadedVideos() {
                 <p>${video.name}</p>
             `;
 
-            videoDiv.addEventListener('click', () => playVideo(video.url));
+            videoDiv.addEventListener('click', () => playVideo(video.url)); // Correct event binding
             videoGrid.appendChild(videoDiv);
         });
     } catch (error) {
@@ -75,8 +75,8 @@ async function loadUploadedVideos() {
 // Play Video
 function playVideo(videoUrl) {
     videoSource.src = videoUrl;
-    videoPlayer.load();
-    videoPlayer.play();
+    videoPlayer.load(); // Load the new video source
+    videoPlayer.play(); // Play the video
 }
 
 // Load videos on page load
