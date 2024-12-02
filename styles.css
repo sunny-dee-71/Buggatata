@@ -1,45 +1,61 @@
 body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
-h1, h2 {
-  text-align: center;
+nav {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
 }
 
-#mainVideoSection {
-  text-align: center;
-  margin: 20px 0;
+nav .logo {
+    font-size: 24px;
+    font-weight: bold;
 }
 
-#mainVideoPlayer {
-  width: 90%;
-  max-width: 800px;
-  height: auto;
+nav .menu {
+    float: right;
 }
 
-#uploadSection, #videoGallery {
-  margin: 20px;
-  text-align: center;
+nav .menu a {
+    color: white;
+    margin-left: 20px;
+    text-decoration: none;
 }
 
-#videoGrid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
+.video-player {
+    text-align: center;
+    margin-top: 20px;
 }
 
-.video-thumbnail {
-  width: 200px;
-  height: 120px;
-  cursor: pointer;
-  overflow: hidden;
+.video-player video {
+    max-width: 100%;
+    max-height: 500px;
 }
 
-.video-thumbnail video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.video-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.video-grid img {
+    max-width: 200px;
+    height: auto;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
 }
