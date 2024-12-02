@@ -1,42 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VideoHub - Upload & View Videos</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Gallery</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <nav>
-        <div class="logo">VideoHub</div>
-        <div class="menu">
-            <a href="#">Home</a>
-            <a href="#">Trending</a>
-            <a href="#">Subscriptions</a>
-        </div>
-    </nav>
+  <h1>Video Gallery</h1>
+  
+  <!-- Main Video Player -->
+  <section id="mainVideoSection">
+    <h2>Now Playing</h2>
+    <video id="mainVideoPlayer" controls>
+      <source id="mainVideoSource" src="" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </section>
 
-    <!-- Main video player -->
-    <section class="video-player">
-        <h2>Watch Video</h2>
-        <video id="videoPlayer" controls>
-            <source id="videoSource" src="" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-    </section>
+  <!-- Upload Section -->
+  <section id="uploadSection">
+    <h2>Upload Video</h2>
+    <form id="uploadForm">
+      <input type="file" id="videoFile" accept="video/*" required>
+      <input type="text" id="videoName" placeholder="Enter video name (optional)">
+      <button type="submit">Upload</button>
+    </form>
+    <p id="uploadStatus"></p>
+  </section>
+  
+  <!-- Video Gallery -->
+  <section id="videoGallery">
+    <h2>Uploaded Videos</h2>
+    <div id="videoGrid"></div>
+  </section>
 
-    <!-- Video Gallery - Display Videos -->
-    <section class="video-gallery">
-        <h2>Uploaded Videos</h2>
-        <div id="videoGallery" class="video-grid">
-            <!-- Thumbnails will be dynamically populated with JavaScript -->
-        </div>
-    </section>
-
-    <footer>
-        <p>&copy; 2024 VideoHub. All rights reserved.</p>
-    </footer>
-
-    <script src="scripts.js"></script>
+  <script src="scripts.js"></script>
 </body>
 </html>
