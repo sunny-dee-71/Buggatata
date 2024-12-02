@@ -77,5 +77,28 @@ function playVideo(videoUrl) {
   mainVideoPlayer.play();
 }
 
-// Load videos on page load
-window.onload = loadVideos;
+// wakes the server
+window.onload = () => {
+  // Create a FormData object
+  const formData = new FormData();
+
+  // Create a new Blob to simulate a file
+  const wakeFile = new Blob(["Wake up!"], { type: 'text/plain' });
+  formData.append('wake', wakeFile, 'wake.txt');
+
+  // Send the formData (the wake file) to the server
+  fetch('https://pokemon-backend-rj8e.onrender.com/wake', {
+    method: 'POST',
+    body: formData,
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data.message); // Log success message
+    })
+    .catch((error) => {
+      console.error('Error uploading wake file:', error);
+    });
+
+  // Load the videos after uploading the wake file
+  loadVideos();
+};
