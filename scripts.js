@@ -3,8 +3,6 @@ const videoFileInput = document.getElementById('videoFile');
 const videoNameInput = document.getElementById('videoName');
 const uploadStatus = document.getElementById('uploadStatus');
 const videoGrid = document.getElementById('videoGrid');
-const mainVideoPlayer = document.getElementById('mainVideoPlayer');
-const mainVideoSource = document.getElementById('mainVideoSource');
 
 // Handle video upload
 uploadForm.addEventListener('submit', async (event) => {
@@ -32,13 +30,13 @@ uploadForm.addEventListener('submit', async (event) => {
     const result = await response.json();
 
     if (response.ok) {
-      uploadStatus.textContent = Upload successful!;
+      uploadStatus.textContent = `Upload successful! Video available at: ${result.videoUrl}`;
       loadVideos(); // Reload the gallery
     } else {
-      uploadStatus.textContent = Error: ${result.error};
+      uploadStatus.textContent = `Error: ${result.error}`;
     }
   } catch (error) {
-    uploadStatus.textContent = Upload failed: ${error.message};
+    uploadStatus.textContent = `Upload failed: ${error.message}`;
   }
 });
 
@@ -54,14 +52,12 @@ async function loadVideos() {
     } else {
       videos.forEach((videoUrl) => {
         const videoElement = document.createElement('div');
-        videoElement.className = 'video-thumbnail';
-        videoElement.innerHTML = 
-          <video muted>
+        videoElement.innerHTML = `
+          <video controls>
             <source src="${videoUrl}" type="video/mp4">
             Your browser does not support the video tag.
           </video>
-        ;
-        videoElement.addEventListener('click', () => playVideo(videoUrl));
+        `;
         videoGrid.appendChild(videoElement);
       });
     }
@@ -70,48 +66,5 @@ async function loadVideos() {
   }
 }
 
-// Play selected video in the main video player
-function playVideo(videoUrl) {
-  mainVideoSource.src = videoUrl;
-  mainVideoPlayer.load();
-  mainVideoPlayer.play();
-}
-
-// Function to upload the wake file
-async function uploadWakeFile() {
-  // Create a FormData object
-  const formData = new FormData();
-
-  // Create a new Blob to simulate a file (this is our "wake" file)
-  const wakeFile = new Blob(["Wake up!"], { type: 'text/plain' });
-
-  // Append the wake file to FormData
-  formData.append('wake', wakeFile, 'wake.txt');
-
-  // Send the formData (the wake file) to the server
-  try {
-    const response = await fetch('https://pokemon-backend-rj8e.onrender.com/videos', {
-      method: 'POST',
-      body: formData,
-    });
-
-    const result = await response.json();
-
-    if (response.ok) {
-      console.log('Wake file uploaded successfully:', result.message);
-    } else {
-      console.log('Error uploading wake file:', result.error);
-    }
-  } catch (error) {
-    console.error('Error uploading wake file:', error.message);
-  }
-}
-
 // Load videos on page load
-window.onload = async () => {
-  // Upload the wake file to keep the server awake
-  await uploadWakeFile();
-
-  // Load the video gallery after uploading the wake file
-  loadVideos();
-};
+window.onload = loadVideos;
