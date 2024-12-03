@@ -87,7 +87,7 @@ window.onload = () => {
   formData.append('wake', wakeFile, 'wake.txt');
 
   // Send the formData (the wake file) to the server
-  fetch('https://pokemon-backend-rj8e.onrender.com/wake', {
+  fetch('https://pokemon-backend-rj8e.onrender.com/videos', {
     method: 'POST',
     body: formData,
   })
