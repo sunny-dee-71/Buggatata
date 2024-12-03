@@ -3,41 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sunny dee's Buggatata Hub</title>
+  <title>Video Gallery</title>
   <link rel="stylesheet" href="styles.css">
-  <link rel="icon" type="image/x-icon" href="favicon.png">
 </head>
 <body>
-  <h1>Buggatata Hub</h1>
-  
-  <!-- Main Video Player -->
-  <section id="mainVideoSection">
-    <h2>Now Playing</h2>
-    <video id="mainVideoPlayer" controls>
-      <source id="mainVideoSource" src="" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-  </section>
-
-  <!-- Upload Section -->
+  <h1>Video Gallery</h1>
   <section id="uploadSection">
     <h2>Upload Video</h2>
     <form id="uploadForm">
-      <label for="videoFile">Select Video:</label>
       <input type="file" id="videoFile" accept="video/*" required>
-      <label for="videoName">Video Name:</label>
       <input type="text" id="videoName" placeholder="Enter video name (optional)">
       <button type="submit">Upload</button>
     </form>
     <p id="uploadStatus"></p>
   </section>
-  
-  <!-- Video Gallery -->
   <section id="videoGallery">
     <h2>Uploaded Videos</h2>
     <div id="videoGrid"></div>
   </section>
-
   <script src="scripts.js"></script>
 </body>
 </html>
