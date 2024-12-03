@@ -15,8 +15,8 @@ h1, h2 {
 
 #mainVideoPlayer {
   width: 90%;
-  max-hight: 800px;
-  width: auto;
+  max-width: 800px;
+  hight: auto;
 }
 
 #uploadSection, #videoGallery {
