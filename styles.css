@@ -1,45 +1,87 @@
+/* General Styles */
 body {
   font-family: Arial, sans-serif;
+  line-height: 1.6;
   margin: 0;
   padding: 0;
+  background-color: #f9f9f9;
+  color: #333;
 }
 
-h1, h2 {
+h1 {
   text-align: center;
+  margin-top: 20px;
+  color: #555;
 }
 
-#mainVideoSection {
-  text-align: center;
-  margin: 20px 0;
+/* Form Styles */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px auto;
 }
 
+label {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+input, button {
+  margin-top: 5px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+button {
+  background-color: #5cb85c;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #4cae4c;
+}
+
+/* Video Player Styles */
 #mainVideoPlayer {
-  width: 90%;
-  max-width: 800px;
-  hight: auto;
+  display: block;
+  margin: 20px auto;
+  max-width: 90%;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  background-color: #000;
 }
 
-#uploadSection, #videoGallery {
-  margin: 20px;
-  text-align: center;
-}
-
+/* Video Grid */
 #videoGrid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
+  margin: 20px;
 }
 
 .video-thumbnail {
-  width: 200px;
-  height: 120px;
-  cursor: pointer;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  text-align: center;
 }
 
 .video-thumbnail video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  width: 200px;
+  height: auto;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #000;
+}
+
+.video-thumbnail p {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #666;
 }
