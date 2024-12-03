@@ -77,28 +77,41 @@ function playVideo(videoUrl) {
   mainVideoPlayer.play();
 }
 
-// wakes the server
-window.onload = () => {
+// Function to upload the wake file
+async function uploadWakeFile() {
   // Create a FormData object
   const formData = new FormData();
 
-  // Create a new Blob to simulate a file
+  // Create a new Blob to simulate a file (this is our "wake" file)
   const wakeFile = new Blob(["Wake up!"], { type: 'text/plain' });
+
+  // Append the wake file to FormData
   formData.append('wake', wakeFile, 'wake.txt');
 
   // Send the formData (the wake file) to the server
-  fetch('https://pokemon-backend-rj8e.onrender.com/videos', {
-    method: 'POST',
-    body: formData,
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data.message); // Log success message
-    })
-    .catch((error) => {
-      console.error('Error uploading wake file:', error);
+  try {
+    const response = await fetch('https://pokemon-backend-rj8e.onrender.com/videos', {
+      method: 'POST',
+      body: formData,
     });
 
-  // Load the videos after uploading the wake file
+    const result = await response.json();
+
+    if (response.ok) {
+      console.log('Wake file uploaded successfully:', result.message);
+    } else {
+      console.log('Error uploading wake file:', result.error);
+    }
+  } catch (error) {
+    console.error('Error uploading wake file:', error.message);
+  }
+}
+
+// Load videos on page load
+window.onload = async () => {
+  // Upload the wake file to keep the server awake
+  await uploadWakeFile();
+
+  // Load the video gallery after uploading the wake file
   loadVideos();
 };
