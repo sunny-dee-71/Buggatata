@@ -43,6 +43,7 @@ uploadForm.addEventListener('submit', async (event) => {
 });
 
 // Load videos into the gallery
+// Load videos into the gallery
 async function loadVideos() {
   try {
     const response = await fetch('https://pokemon-backend-rj8e.onrender.com/videos');
@@ -52,16 +53,17 @@ async function loadVideos() {
     if (videos.length === 0) {
       videoGrid.innerHTML = '<p>No videos uploaded yet.</p>';
     } else {
-      videos.forEach((videoUrl) => {
+      videos.forEach((video) => {
         const videoElement = document.createElement('div');
         videoElement.className = 'video-thumbnail';
         videoElement.innerHTML = `
           <video muted>
-            <source src="${videoUrl}" type="video/mp4">
+            <source src="${video.url}" type="video/mp4">
             Your browser does not support the video tag.
           </video>
+          <p>${video.name}</p>
         `;
-        videoElement.addEventListener('click', () => playVideo(videoUrl));
+        videoElement.addEventListener('click', () => playVideo(video.url));
         videoGrid.appendChild(videoElement);
       });
     }
@@ -69,6 +71,7 @@ async function loadVideos() {
     console.error('Error loading videos:', error);
   }
 }
+
 
 // Play selected video in the main video player
 function playVideo(videoUrl) {
