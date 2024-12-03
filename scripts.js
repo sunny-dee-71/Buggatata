@@ -3,6 +3,8 @@ const videoFileInput = document.getElementById('videoFile');
 const videoNameInput = document.getElementById('videoName');
 const uploadStatus = document.getElementById('uploadStatus');
 const videoGrid = document.getElementById('videoGrid');
+const mainVideoPlayer = document.getElementById('mainVideoPlayer');
+const mainVideoSource = document.getElementById('mainVideoSource');
 
 // Handle video upload
 uploadForm.addEventListener('submit', async (event) => {
@@ -30,7 +32,7 @@ uploadForm.addEventListener('submit', async (event) => {
     const result = await response.json();
 
     if (response.ok) {
-      uploadStatus.textContent = `Upload successful! Video available at: ${result.videoUrl}`;
+      uploadStatus.textContent = `Upload successful!`;
       loadVideos(); // Reload the gallery
     } else {
       uploadStatus.textContent = `Error: ${result.error}`;
@@ -52,18 +54,27 @@ async function loadVideos() {
     } else {
       videos.forEach((videoUrl) => {
         const videoElement = document.createElement('div');
+        videoElement.className = 'video-thumbnail';
         videoElement.innerHTML = `
-          <video controls>
+          <video muted>
             <source src="${videoUrl}" type="video/mp4">
             Your browser does not support the video tag.
           </video>
         `;
+        videoElement.addEventListener('click', () => playVideo(videoUrl));
         videoGrid.appendChild(videoElement);
       });
     }
   } catch (error) {
     console.error('Error loading videos:', error);
   }
+}
+
+// Play selected video in the main video player
+function playVideo(videoUrl) {
+  mainVideoSource.src = videoUrl;
+  mainVideoPlayer.load();
+  mainVideoPlayer.play();
 }
 
 // Load videos on page load
