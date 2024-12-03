@@ -17,6 +17,7 @@ h1, h2 {
   width: 90%;
   max-width: 800px;
   height: auto;
+  max-width: 800px;
 }
 
 #uploadSection, #videoGallery {
