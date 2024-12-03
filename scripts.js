@@ -43,7 +43,6 @@ uploadForm.addEventListener('submit', async (event) => {
 });
 
 // Load videos into the gallery
-// Load videos into the gallery
 async function loadVideos() {
   try {
     const response = await fetch('https://pokemon-backend-rj8e.onrender.com/videos');
@@ -61,7 +60,7 @@ async function loadVideos() {
             <source src="${video.url}" type="video/mp4">
             Your browser does not support the video tag.
           </video>
-          <p>${video.name}</p>
+          <p>${video.name}</p> <!-- Display the video name -->
         `;
         videoElement.addEventListener('click', () => playVideo(video.url));
         videoGrid.appendChild(videoElement);
@@ -72,7 +71,6 @@ async function loadVideos() {
   }
 }
 
-
 // Play selected video in the main video player
 function playVideo(videoUrl) {
   mainVideoSource.src = videoUrl;
@@ -81,21 +79,13 @@ function playVideo(videoUrl) {
 }
 
 // Function to upload the wake file
-// Function to upload the wake file
 async function uploadWakeFile() {
-  // Create a FormData object
   const formData = new FormData();
-
-  // Create a new Blob to simulate a file (this is our "wake" file)
   const wakeFile = new Blob(["Wake up!"], { type: 'text/plain' });
+  formData.append('wake', wakeFile, 'wake.txt');
 
-  // Append the wake file to FormData
-  formData.append('video', wakeFile, 'wake.txt');
-  formData.append('videoName', 'wake');
-
-  // Send the formData (the wake file) to the server
   try {
-    const response = await fetch('https://pokemon-backend-rj8e.onrender.com/upload', {
+    const response = await fetch('https://pokemon-backend-rj8e.onrender.com/wake', {
       method: 'POST',
       body: formData,
     });
@@ -105,19 +95,15 @@ async function uploadWakeFile() {
       console.log('Wake file uploaded successfully:', result.message);
     } else {
       const errorResult = await response.json();
-      console.log('Error uploading wake file:', errorResult.error);
+      console.error('Error uploading wake file:', errorResult.error);
     }
   } catch (error) {
     console.error('Error uploading wake file:', error.message);
   }
 }
 
-
 // Load videos on page load
 window.onload = async () => {
-  // Upload the wake file to keep the server awake
-  await uploadWakeFile();
-
-  // Load the video gallery after uploading the wake file
-  loadVideos();
+  await uploadWakeFile(); // Upload wake file on load
+  loadVideos(); // Load the video gallery after uploading the wake file
 };
