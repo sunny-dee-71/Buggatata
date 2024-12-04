@@ -45,6 +45,6 @@ h1, h2 {
   object-fit: cover;
 }
 
-#disclaimer {
+.disclaimer {
   width: 80%
 }
