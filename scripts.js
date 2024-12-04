@@ -1,4 +1,4 @@
-8const uploadForm = document.getElementById('uploadForm');
+const uploadForm = document.getElementById('uploadForm');
 const videoFileInput = document.getElementById('videoFile');
 const videoNameInput = document.getElementById('videoName');
 const uploadStatus = document.getElementById('uploadStatus');
