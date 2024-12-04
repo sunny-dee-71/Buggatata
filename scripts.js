@@ -90,7 +90,7 @@ async function uploadWakeFile() {
 
   // Send the formData (the wake file) to the server
   try {
-    const response = await fetch('https://pokemon-backend-rj8e.onrender.com/wake', {
+    const response = await fetch('https://pokemon-backend-rj8e.onrender.com/videos', {
       method: 'POST',
       body: formData,
     });
